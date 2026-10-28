@@ -12,7 +12,6 @@ function App() {
   useEffect(() => {
     const fetchPokemon = async () => {
       setLoading(true)
-      // ID aleatorio entre 1 y 1025
       const randomId = Math.floor(Math.random() * 1025) + 1
 
       try {
@@ -33,7 +32,22 @@ function App() {
     fetchPokemon()
   }, [round]) 
 
-  return <div>{/* proximamente interfaz*/}</div>
+   return (
+    <div className="game">
+      <h1>¿Quién es ese Pokémon?</h1>
+      <p className="score">Puntos: {score}</p>
+
+      {loading || !pokemon ? (
+        <p>Cargando...</p>
+      ) : (
+        <img
+          className={revealed ? 'pokemon-img revealed' : 'pokemon-img'}
+          src={pokemon.image}
+          alt="Pokémon misterioso"
+        />
+      )}
+    </div>
+  )
 }
 
 export default App
