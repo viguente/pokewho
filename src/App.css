@@ -14,3 +14,12 @@
 .pokemon-img.revealed {
   filter: none;                
 }
+
+input {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}

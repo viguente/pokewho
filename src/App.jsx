@@ -1,5 +1,6 @@
 import './App.css'
 import { useState, useEffect } from 'react'
+import PokemonList from './assets/components/PokemonList'
 
 function App() {
   const [pokemon, setPokemon] = useState(null)
@@ -33,6 +34,7 @@ function App() {
   }, [round]) 
 
    return (
+    <>
     <div className="game">
       <h1>¿Quién es ese Pokémon?</h1>
       <p className="score">Puntos: {score}</p>
@@ -46,7 +48,19 @@ function App() {
           alt="Pokémon misterioso"
         />
       )}
+
+      <input
+        type="text"
+        placeholder="Escribe el nombre del Pokémon"
+        value={guess}
+        onChange={(e) => setGuess(e.target.value)}
+        disabled={loading || revealed}
+      />
+
+
     </div>
+    <PokemonList/>
+    </>
   )
 }
 
