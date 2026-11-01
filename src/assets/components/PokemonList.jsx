@@ -50,23 +50,44 @@ function PokemonList({ discovered }){
     }
   }, [discovered])
 
-  if (loading) return <p>Cargando Pokédex...</p>
-  if (error) return <p>{error}</p>
-
-  
   return (
     <section className="pokedex">
-      <h2>Pokédex</h2>
-      <div className="pokemon-grid">
-        {pokemons.map((p) => (
-          <article key={p.id} className="pokemon-card">
-            <img src={p.image} alt={p.name} />
-            <h3>{p.name}</h3>
-            <p className="types">Tipo: {p.types.join(', ')}</p>
-          </article>
-        ))}
+      <div className="pokedex-heading">
+        <div>
+          <p className="eyebrow">Tu colección</p>
+          <h2>Pokédex</h2>
+        </div>
+        <span className="pokedex-count">{discovered.length} descubiertos</span>
       </div>
-      {pokemons.length === 0 && <p>Aún no has adivinado ningún Pokémon.</p>}
+
+      {loading ? (
+        <p className="pokedex-message">Cargando Pokédex...</p>
+      ) : error ? (
+        <p className="pokedex-message">{error}</p>
+      ) : pokemons.length === 0 ? (
+        <p className="pokedex-message">Aún no has adivinado ningún Pokémon.</p>
+      ) : (
+        <div className="pokemon-grid">
+          {pokemons.map((p) => (
+            <article key={p.id} className="pokemon-card">
+              <div className="pokemon-card-art">
+                <img src={p.image} alt={p.name} />
+              </div>
+              <div className="pokemon-card-info">
+                <span className="pokemon-card-number">
+                  N.º {String(p.id).padStart(3, '0')}
+                </span>
+                <h3>{p.name}</h3>
+                <div className="types">
+                  {p.types.map((type) => (
+                    <span className="type-tag" key={type}>{type}</span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   )
 }

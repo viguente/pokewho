@@ -45,8 +45,8 @@ function App() {
     fetchPokemon()
   }, [round]) 
 
-   const handleSubmit = (e) => {
-    e.preventDefault() // evita que el formulario recargue la página
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
     if (!pokemon || revealed) return
 
@@ -57,64 +57,89 @@ function App() {
       setRevealed(true)
       setScore((prev) => prev + 1)
       setDiscovered((prev) =>
-  prev.includes(pokemon.id) ? prev : [...prev, pokemon.id]
-    )
+        prev.includes(pokemon.id) ? prev : [...prev, pokemon.id]
+      )
     }
   }
+
   const handleNext = () => {
-    setGuess('')          // limpia el input
-    setRevealed(false)    // vuelve a poner la silueta negra
-    setRound((r) => r + 1) // dispara el useEffect -> nuevo Pokémon
+    setGuess('')
+    setRevealed(false)
+    setRound((r) => r + 1)
   }
 
-   return (
-    <>
-    <div className="game">
-       {revealed && pokemon && (
-        <p className="success">
-          ¡Correcto! Es <strong>{pokemon.name}</strong> 🎉
-        </p>
-      )}
+  return (
+    <main className="app-shell">
+      <header className="site-header">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">A</span>
+          <span>APIMON</span>
+        </div>
+        <span className="header-label">Adivina y completa tu colección</span>
+      </header>
 
-      <button onClick={handleNext} disabled={loading}>
-        Siguiente
-      </button>
-      <h1>¿Quién es ese Pokémon?</h1>
-      <p className="score">Puntos: {score}</p>
+      <section className="game" aria-labelledby="game-title">
+        <div className="game-heading">
+          <div>
+            <p className="eyebrow">Desafío Pokémon</p>
+            <h1 id="game-title">¿Quién es ese Pokémon?</h1>
+          </div>
+          <p className="score">Puntos: {score}</p>
+        </div>
 
-      {loading || !pokemon ? (
-        <p>Cargando...</p>
-      ) : (
-        <img
-          className={revealed ? 'pokemon-img revealed' : 'pokemon-img'}
-          src={pokemon.image}
-          alt="Pokémon misterioso"
-        />
-      )}
+        <div className="game-content">
+          <div className="pokemon-stage">
+            <span className="stage-label">POKÉMON MISTERIOSO</span>
+            {loading || !pokemon ? (
+              <p>Cargando Pokémon...</p>
+            ) : (
+              <img
+                className={revealed ? 'pokemon-img revealed' : 'pokemon-img'}
+                src={pokemon.image}
+                alt="Pokémon misterioso"
+              />
+            )}
+          </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Escribe el nombre del Pokémon"
-          value={guess}
-          onChange={(e) => setGuess(e.target.value)}
-          disabled={loading || revealed}
-        />
-        <button type="submit" disabled={loading || revealed}>
-          Adivinar
-        </button>
-      </form>
+          <div className="game-controls">
+            <p className="eyebrow">Tu turno</p>
+            <h2>Escribe tu respuesta</h2>
+            <p className="game-help">
+              Observa la silueta y escribe el nombre para añadirlo a tu Pokédex.
+            </p>
 
-      {revealed && pokemon && (
-        <p className="success">
-          ¡Correcto! Es <strong>{pokemon.name}</strong>
-        </p>
-      )}
+            <form className="guess-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Nombre del Pokémon"
+                value={guess}
+                onChange={(e) => setGuess(e.target.value)}
+                disabled={loading || revealed}
+                aria-label="Nombre del Pokémon"
+              />
+              <button type="submit" disabled={loading || revealed}>
+                Adivinar
+              </button>
+            </form>
 
+            <div className="game-actions">
+              {revealed && pokemon ? (
+                <p className="success">
+                  ¡Correcto! Es <strong>{pokemon.name}</strong>
+                </p>
+              ) : (
+                <span />
+              )}
+              <button type="button" onClick={handleNext} disabled={loading}>
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    </div>
-    <PokemonList discovered={discovered} />
-    </>
+      <PokemonList discovered={discovered} />
+    </main>
   )
 }
 
