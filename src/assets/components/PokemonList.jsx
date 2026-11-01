@@ -42,7 +42,20 @@ function PokemonList(){
   if (error) return <p>{error}</p>
 
   
-  return <p>Se cargaron {pokemons.length} Pokémon</p>
+  return (
+    <section className="pokedex">
+      <h2>Pokédex</h2>
+      <div className="pokemon-grid">
+        {pokemons.map((p) => (
+          <article key={p.id} className="pokemon-card">
+            <img src={p.image} alt={p.name} />
+            <h3>{p.name}</h3>
+            <p className="types">Tipo: {p.types.join(', ')}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
 }
 
 export default PokemonList
