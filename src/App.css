@@ -66,3 +66,22 @@ input {
   color: #555;
   text-transform: capitalize;
 }
+.success {
+  color: #2e7d32;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #ffcb05;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
